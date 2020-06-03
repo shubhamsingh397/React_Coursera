@@ -1,23 +1,23 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card, CardImg, CardText, CardBody,
     CardTitle } from 'reactstrap';
 
 
-    class DishDetail extends Component {
 
 
-        renderDish(dish)
+
+        function RenderDish({dish})
         {
-            if (this.props.dish != null)
+            if (dish != null)
             // const dish = this.props.dish;
              return(
                
                      <div  className="col-12 col-md-5 m-1">
                  <Card>
-                     <CardImg top src={this.props.dish.image} alt={this.props.dish.name} />
+                     <CardImg top src={dish.image} alt={dish.name} />
                      <CardBody>
-                     <CardTitle>{this.props.dish.name}</CardTitle>
-                     <CardText>{this.props.dish.description}</CardText>
+                     <CardTitle>{dish.name}</CardTitle>
+                     <CardText>{dish.description}</CardText>
                      </CardBody>
                  </Card>
                  </div>
@@ -29,7 +29,7 @@ import { Card, CardImg, CardText, CardBody,
              );
         }
 
-        renderComments(comments)
+        function RenderComments({comments})
         {
             if (comments == null) {
                 return (<div></div>)
@@ -62,13 +62,13 @@ import { Card, CardImg, CardText, CardBody,
                
             
         }
-        render() {
-            const dish = this.props.dish
+        const  DishDetail = (props) =>  {
+            const dish = props.dish
             if (dish == null) {
                 return (<div></div>)
             }
-            const dishItem = this.renderDish(dish)
-            const comment = this.renderComments(dish.comments)
+            const dishItem = <RenderDish dish={dish}/>
+            const comment = <RenderComments comments={dish.comments}/>
             return (
                 <div className="container">
                 <div className='row'>
@@ -80,5 +80,5 @@ import { Card, CardImg, CardText, CardBody,
         }
 
     
-    }
+    
 export default DishDetail;
