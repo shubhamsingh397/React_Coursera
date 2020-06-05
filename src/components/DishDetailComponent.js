@@ -3,15 +3,34 @@ import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbIte
                      Modal, ModalHeader, ModalBody, Row, Col, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 
 
 
 
 
-
-        function RenderDish({dish})
+        function RenderDish({dish,isLoading,errMess})
         {
-            if (dish != null)
+            if (isLoading) {
+                return(
+                    <div className="container">
+                        <div className="row">            
+                            <Loading />
+                        </div>
+                    </div>
+                );
+            }
+            else if (errMess) {
+                return(
+                    <div className="container">
+                        <div className="row">            
+                            <h4>{errMess}</h4>
+                        </div>
+                    </div>
+                );
+            }
+            else if (dish != null)
+           
             // const dish = this.props.dish;
              return(
                
@@ -85,7 +104,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
                     </div>                
                 </div>
                 <div className="row">
-                    <RenderDish dish={props.dish} />
+                    <RenderDish dish={props.dish} isLoading ={props.isLoading} errMess ={props.errMess} />
                     <RenderComments comments={props.comments}
         addComment={props.addComment}
         dishId={props.dish.id}
