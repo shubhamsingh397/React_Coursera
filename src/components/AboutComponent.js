@@ -1,30 +1,56 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 
+function About(props) {
 
-    function About(props) {
-        const leaders = props.leaders.map((leader, i) => {
-          return <RenderLeader key={i} leader={leader}></RenderLeader>;
-        });
-
-    
-    function RenderLeader(props) {
+    const leaders = props.leaders.leaders.map(leader => {
         return (
-          <Media>
-            <Media left middle href="#">
-              <Media object src={props.leader.image} alt={props.leader.name} />
-            </Media>
-            <Media body className="pl-5">
-              <Media heading>{props.leader.name}</Media>
-              <p>{props.leader.designation}</p>
-              <p>{props.leader.description}</p>
-            </Media>
-          </Media>
+            <RenderLeader leader={leader} />
         );
-      }
-    return(
+    });
+
+    function RenderLeader({ leader }) {
+        return (
+            <Fade in>
+                <Media tag="li" key={leader.id} className="col-12 mt-5" >
+                    <Media left middle>
+                        <Media object src={baseUrl + leader.image} alt={leader.name} />
+                    </Media>
+                    <Media body className="ml-5">
+                        <Media heading>{leader.name}</Media>
+                        <p>{leader.designation}</p>
+                        <p>{leader.description}</p>
+                    </Media>
+                </Media>
+            </Fade>
+        );
+    }
+
+    function RenderLeaders() {
+
+        if (props.leaders.isLoading) {
+            return <Loading />;
+        }
+        else if (props.leaders.errMess) {
+            return (
+                <h4>{props.leaders.errMess}</h4>
+            );
+        }
+        else return (
+            <Media list>
+                <Stagger in>
+                    {leaders}
+                </Stagger>
+            </Media>
+        );
+    }
+
+    return (
         <div className="container">
             <div className="row">
                 <Breadcrumb>
@@ -34,7 +60,7 @@ import { Link } from 'react-router-dom';
                 <div className="col-12">
                     <h3>About Us</h3>
                     <hr />
-                </div>                
+                </div>
             </div>
             <div className="row row-content">
                 <div className="col-12 col-md-6">
@@ -79,9 +105,7 @@ import { Link } from 'react-router-dom';
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
-                    <Media list>
-                        {leaders}
-                    </Media>
+                    <RenderLeaders />
                 </div>
             </div>
         </div>
